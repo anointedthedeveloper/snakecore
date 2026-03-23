@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SnakeCore" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- SVG Snake Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0f' rx='6'/><rect x='4' y='14' width='6' height='6' rx='1' fill='%2339ff14'/><rect x='10' y='14' width='6' height='6' rx='1' fill='%2300f0ff'/><rect x='16' y='14' width='6' height='6' rx='1' fill='%2300f0ff' opacity='.7'/><rect x='16' y='8' width='6' height='6' rx='1' fill='%2300f0ff' opacity='.5'/><rect x='22' y='8' width='6' height='6' rx='1' fill='%2300f0ff' opacity='.3'/><circle cx='6' cy='16' r='1.5' fill='%230a0a0f'/></svg>" />
+
+    <!-- Primary SEO -->
+    <title>SnakeCore – OOP Snake Game Engine by anointedthedeveloper</title>
+    <meta name="description" content="SnakeCore is a browser Snake game built with OOP principles by anointedthedeveloper. Neon visuals, score tracking, speed scaling, PWA — play and install on any device." />
+    <meta name="keywords" content="snake game, oop snake, snakecore, anointedthedeveloper, anointed developer, browser snake, html5 snake, react snake, pwa game, javascript game" />
+    <meta name="author" content="anointedthedeveloper" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://snakecore.vercel.app/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SnakeCore – OOP Snake Game Engine by anointedthedeveloper" />
+    <meta property="og:description" content="A modern browser Snake game built with OOP principles. Neon theme, WASD/arrow controls, mobile support. Built by anointedthedeveloper." />
+    <meta property="og:url" content="https://snakecore.vercel.app/" />
+    <meta property="og:site_name" content="SnakeCore" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SnakeCore – OOP Snake Game Engine" />
+    <meta name="twitter:description" content="Play SnakeCore in your browser. Built by anointedthedeveloper." />
+    <meta name="twitter:creator" content="@anointedthedeveloper" />
+    <meta name="twitter:site" content="@anointedthedeveloper" />
+
+    <!-- Structured Data: WebApplication + Person -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "SnakeCore",
+          "alternateName": "SnakeCore OOP Snake Game Engine",
+          "description": "A modern OOP Snake game engine running in the browser, built by anointedthedeveloper.",
+          "url": "https://snakecore.vercel.app/",
+          "author": { "@id": "https://github.com/anointedthedeveloper" },
+          "applicationCategory": "Game",
+          "operatingSystem": "Any",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://github.com/anointedthedeveloper",
+          "name": "anointedthedeveloper",
+          "alternateName": "Anointed The Developer",
+          "url": "https://github.com/anointedthedeveloper",
+          "sameAs": [
+            "https://github.com/anointedthedeveloper"
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
