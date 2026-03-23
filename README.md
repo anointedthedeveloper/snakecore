@@ -8,7 +8,7 @@ A modern web version of the classic Snake game built with OOP principles in Java
 
 ## Live Demo
 
-[https://snakecore.vercel.app](https://snakecore.vercel.app)
+[snakecore-jade.vercel.app](snakecore-jade.vercel.app)
 
 ---
 
