@@ -7,29 +7,31 @@ import GameOverOverlay from "./GameOverOverlay";
 import MobileControls from "./MobileControls";
 import Footer from "./Footer";
 
-const BASE_W = COLS * CELL; // 500
-const BASE_H = ROWS * CELL; // 500
+const BASE_W = COLS * CELL;
+const BASE_H = ROWS * CELL;
 const ASPECT = BASE_W / BASE_H;
-
-// Reserved px for: header ~36, hud ~28, mobile-controls ~100, footer ~36, gaps ~24
-const CHROME_H = 224;
-const CHROME_H_DESKTOP = 120;
 
 export default function GameCanvas() {
   const canvasRef = useRef(null);
   const { state, highScore, start, restart, swipe } = useSnakeGame(canvasRef);
   const [scale, setScale] = useState(1);
-  const isMobile = () => window.innerWidth < 640;
+
+  useEffect(() => {
+    // Prevent pull-to-refresh and page scroll on mobile
+    const prevent = (e) => e.preventDefault();
+    document.addEventListener("touchmove", prevent, { passive: false });
+    return () => document.removeEventListener("touchmove", prevent);
+  }, []);
 
   useEffect(() => {
     const resize = () => {
-      const chrome = isMobile() ? CHROME_H : CHROME_H_DESKTOP;
+      const mobile = window.innerWidth < 640;
+      // header(36) + hud(28) + dpad(112) + footer(28) + gaps(30) = 234 mobile
+      // header(36) + hud(28) + footer(28) + gaps(20) = 112 desktop
+      const chrome = mobile ? 234 : 112;
       const availH = window.innerHeight - chrome;
-      const availW = window.innerWidth - 32;
-      // fit canvas inside available space keeping aspect ratio
-      const byH = availH;
-      const byW = availW / ASPECT;
-      const fit = Math.min(byH, byW, BASE_H);
+      const availW = window.innerWidth - 24;
+      const fit = Math.min(availH, availW / ASPECT, BASE_H);
       setScale(fit / BASE_H);
     };
     resize();
@@ -42,24 +44,21 @@ export default function GameCanvas() {
 
   return (
     <div className="game-shell">
-      {/* Header */}
-      <header className="flex items-center justify-center">
-        <h1 className="font-pixel text-sm sm:text-base glow-green tracking-widest flex items-center gap-2">
+      <header className="shrink-0 flex items-center justify-center">
+        <h1 className="font-pixel text-sm sm:text-base glow-green tracking-widest">
           🐍 SNAKECORE
         </h1>
       </header>
 
-      {/* HUD */}
       <GameHUD score={state.score} highScore={highScore} />
 
-      {/* Canvas */}
-      <div className="relative border-neon rounded" style={{ width: cw, height: ch }}>
+      <div className="relative border-neon rounded shrink-0" style={{ width: cw, height: ch }}>
         <canvas
           ref={canvasRef}
           width={BASE_W}
           height={BASE_H}
           className="rounded"
-          style={{ width: cw, height: ch }}
+          style={{ width: cw, height: ch, touchAction: "none" }}
         />
         {!state.started && !state.over && <StartOverlay onStart={start} />}
         {state.over && (
@@ -67,10 +66,8 @@ export default function GameCanvas() {
         )}
       </div>
 
-      {/* Mobile D-pad */}
       <MobileControls onSwipe={swipe} />
 
-      {/* Footer */}
       <Footer />
     </div>
   );

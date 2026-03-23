@@ -15,12 +15,14 @@ export function useSnakeGame(canvasRef) {
   const engine = useRef(new GameEngine());
   const animRef = useRef(null);
   const lastTick = useRef(0);
+  const touchStart = useRef(null);
   const [state, setState] = useState(() => engine.current.getState());
   const [highScore, setHighScore] = useState(() =>
     parseInt(localStorage.getItem("snakecore_hs") || "0")
   );
 
-  const getSpeed = (score) => Math.max(MIN_SPEED, BASE_SPEED - Math.floor(score / 50) * SPEED_STEP);
+  const getSpeed = (score) =>
+    Math.max(MIN_SPEED, BASE_SPEED - Math.floor(score / 50) * SPEED_STEP);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -99,6 +101,7 @@ export function useSnakeGame(canvasRef) {
     engine.current.input(dir);
   }, []);
 
+  // Keyboard
   useEffect(() => {
     const onKey = (e) => {
       const dir = KEY_MAP[e.key];
@@ -109,6 +112,42 @@ export function useSnakeGame(canvasRef) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [start, restart]);
+
+  // Touch swipe on canvas
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const onTouchStart = (e) => {
+      e.preventDefault();
+      const t = e.touches[0];
+      touchStart.current = { x: t.clientX, y: t.clientY };
+      // tap to start
+      if (!engine.current.started) start();
+    };
+
+    const onTouchEnd = (e) => {
+      e.preventDefault();
+      if (!touchStart.current) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - touchStart.current.x;
+      const dy = t.clientY - touchStart.current.y;
+      touchStart.current = null;
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return; // tap, not swipe
+      if (Math.abs(dx) > Math.abs(dy)) {
+        engine.current.input(dx > 0 ? "RIGHT" : "LEFT");
+      } else {
+        engine.current.input(dy > 0 ? "DOWN" : "UP");
+      }
+    };
+
+    canvas.addEventListener("touchstart", onTouchStart, { passive: false });
+    canvas.addEventListener("touchend", onTouchEnd, { passive: false });
+    return () => {
+      canvas.removeEventListener("touchstart", onTouchStart);
+      canvas.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [canvasRef, start]);
 
   useEffect(() => {
     draw();
